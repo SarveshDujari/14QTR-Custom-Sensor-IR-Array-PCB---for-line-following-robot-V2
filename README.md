@@ -1,298 +1,177 @@
-\# 14-Channel QTR Sensor Array PCB
+# 14-Channel QTR Sensor Array PCB
 
 Custom 14-channel infrared sensor array PCB designed in KiCad for high-speed line follower robots and embedded robotics applications.
 
+---
 
+## Preview
 
-\---
+### PCB Layout
 
+![PCB Layout](pcb_editor_view.png)
 
+### 3D View
 
-\## Preview
+![PCB 3D View](3d_view.png)
 
+---
 
+## Features
 
-\### PCB Layout
+- 14× TCRT5000 IR reflectance sensors
+- Custom U-shaped curved PCB for wide-angle sensing
+- Compact sensor spacing for accurate line detection
+- Angled side sensors for better curve and junction detection
+- Mounting holes for chassis integration
+- Dedicated resistor network for each channel
+  - 200Ω IR LED series resistor
+  - 10kΩ pull-down resistor
+- 16-pin single-row output header
+- Analog output for all channels
+- Compatible with any ADC-capable microcontroller
+- Onboard decoupling capacitor for stable power delivery
+- Designed in KiCad 9.0
+- Gerber files included for fabrication
 
-!\[PCB Layout](pcb\_editor\_view.png)
+---
 
-
-
-\### 3D View
-
-!\[PCB 3D](3d\_view.png)
-
-
-
-\---
-
-
-
-\## Features
-
-
-
-\- 14x TCRT5000 IR sensors
-
-\- Custom U-shaped curved PCB design for wide-angle coverage
-
-\- Compact sensor placement for precise line detection
-
-\- Angled wing sensors for improved curve and intersection detection
-
-\- Mounting holes for robot chassis integration
-
-\- Dedicated resistor network per channel (200Ω LED series + 10kΩ pull-down)
-
-\- 16-pin single-row header output (GND, Vin, Sensor 1–14)
-
-\- Analog output per channel — compatible with any ADC-equipped MCU
-
-\- Onboard decoupling capacitor for power stability
-
-\- Designed using KiCad 9.0
-
-\- Gerber files included for fabrication
-
-
-
-\---
-
-
-
-\## Hardware Specifications
-
-
+## Hardware Specifications
 
 | Parameter | Value |
-
 |---|---|
-
 | Sensor Type | TCRT5000 |
-
 | Sensor Count | 14 |
-
-| LED Series Resistor | 200 Ω (per channel) |
-
-| Pull-down Resistor | 10 kΩ (per channel) |
-
+| LED Series Resistor | 200 Ω |
+| Pull-down Resistor | 10 kΩ |
 | Decoupling Capacitor | 100 nF |
-
 | Supply Voltage | 5V |
+| Output Type | Analog |
+| Header Type | 16-pin 2.54mm single-row |
+| PCB Type | 2-Layer Custom PCB |
+| Software Used | KiCad 9.0 |
+| Main Application | Line Follower Robotics |
 
-| Output Type | Analog (per channel) |
+---
 
-| Header | 16-pin 2.54mm single-row |
+## Bill of Materials (BOM)
 
-| PCB Software | KiCad 9.0 |
-
-| Board Type | Custom 2-Layer PCB |
-
-| Application | Line Follower Robotics |
-
-
-
-\---
-
-
-
-\## Bill of Materials
-
-
-
-| Ref | Component | Value | Qty |
-
+| Reference | Component | Value | Quantity |
 |---|---|---|---|
-
 | U1–U14 | IR Reflectance Sensor | TCRT5000 | 14 |
+| R1, R3, R5 ... R27 | LED Series Resistor | 200 Ω (0805) | 14 |
+| R2, R4, R6 ... R28 | Pull-down Resistor | 10 kΩ (0805) | 14 |
+| C1 | Decoupling Capacitor | 100 nF (0805) | 1 |
+| J1 | Pin Header | 16-pin 2.54mm | 1 |
+| — | Power Connector | Header / Screw Terminal | 1 |
 
-| R1, R3, R5 ... R27 (odd) | LED Series Resistor | 200 Ω (0805 SMD) | 14 |
+---
 
-| R2, R4, R6 ... R28 (even) | Pull-down Resistor | 10 kΩ (0805 SMD) | 14 |
-
-| C1 | Decoupling Capacitor | 100 nF (0805 SMD) | 1 |
-
-| J1 | Pin Header | 2.54mm 16-pin | 1 |
-
-| — | Power Header (GND) | Screw terminal / header | 1 |
-
-| — | Power Header (Vin) | Screw terminal / header | 1 |
-
-
-
-\---
-
-
-
-\## Pinout
-
-
+## Pinout
 
 | Pin | Signal | Description |
-
 |---|---|---|
-
 | 1 | GND | Ground |
+| 2 | VIN | 5V Supply |
+| 3–16 | CH1–CH14 | Analog sensor outputs |
 
-| 2 | Vin | 5V Supply |
+---
 
-| 3–16 | CH1–CH14 | Sensor analog outputs (left to right) |
-
-
-
-\---
-
-
-
-\## Project Structure
-
-
+## Project Structure
 
 ```text
-
 .
-
 ├── Gerber new/
-
-├── 14QRT\_Custom\_IR\_Sensor\_Improved.kicad\_pcb
-
-├── 14QRT\_Custom\_IR\_Sensor\_Improved.kicad\_pro
-
-├── 14QRT\_Custom\_IR\_Sensor\_Improved.kicad\_prl
-
+├── 14QRT_Custom_IR_Sensor_Improved.kicad_pcb
+├── 14QRT_Custom_IR_Sensor_Improved.kicad_pro
+├── 14QRT_Custom_IR_Sensor_Improved.kicad_prl
 ├── fp-info-cache
-
-├── 3d\_view.png
-
-├── pcb\_editor\_view.png
-
+├── 3d_view.png
+├── pcb_editor_view.png
 └── README.md
-
 ```
 
+---
 
+## Circuit Description
 
-\---
+Each channel uses a TCRT5000 infrared reflectance sensor with:
 
+- 200 Ω current-limiting resistor for the IR LED
+- 10 kΩ pull-down resistor for the phototransistor output
 
+### IR LED Section
 
-\## Circuit Description
-
-
-
-Each of the 14 channels follows the same schematic:
-
-
-
+```text
+5V ──[200Ω]──► IR LED ──► GND
 ```
 
-5V ──\[200Ω]──► TCRT5000 IR LED (Anode → Cathode → GND)
+### Phototransistor Section
 
-
-
-Phototransistor:
-
-&#x20; Collector → 5V
-
-&#x20; Emitter → \[10kΩ] → GND
-
-&#x20;         └──────────► Analog Output (Header Pin)
-
+```text
+Collector ──► 5V
+Emitter ──► [10kΩ] ──► GND
+             │
+             └──► Analog Output
 ```
 
+### Sensor Behavior
 
+| Surface Type | Sensor Output |
+|---|---|
+| White / Reflective Surface | LOW |
+| Black / Non-reflective Surface | HIGH |
 
-\- \*\*White / reflective surface\*\* → phototransistor conducts → output \*\*LOW\*\*
+---
 
-\- \*\*Black / non-reflective surface\*\* → phototransistor cuts off → output \*\*HIGH\*\*
+## Current Status
 
+- PCB routing completed
+- Gerber files generated
+- Open-source repository published
+- Additional improvements planned
 
+---
 
-\---
+## Future Improvements
 
+### Hardware
 
+- Add LM393 comparator stage for digital outputs
+- Add adjustable threshold potentiometers
+- Add onboard I2C ADC for reduced MCU ADC usage
+- Add per-channel status LEDs
+- Improve power filtering with bulk capacitors
+- Add reverse polarity protection
 
-\## Current Status
+### PCB Layout
 
+- Cleaner routing and optimized power traces
+- Better silkscreen labeling
+- Dedicated test points for debugging
+- Improved sensor wing geometry experiments
 
+### Firmware
 
-\- ✅ PCB routing completed
+- Weighted centroid line position algorithm
+- Auto-calibration routine
+- PID controller examples for Arduino and STM32
 
-\- ✅ Gerber files generated
+---
 
-\- ✅ Design uploaded as open-source project
+## Applications
 
-\- 🔄 Future improvements planned (see below)
+- High-speed line follower robots
+- Autonomous navigation systems
+- Embedded robotics platforms
+- PID-based motion control systems
+- Path tracking robots
 
+---
 
+## License
 
-\---
+This project is released as open-source hardware.
 
+---
 
-
-\## Future Improvements
-
-
-
-\### Hardware
-
-\- Add comparator ICs (e.g. LM393) for digital output per channel, reducing ADC pin usage
-
-\- Add onboard op-amp with adjustable threshold potentiometer for easy sensitivity tuning
-
-\- Add I2C ADC (e.g. ADS1115) for MCUs with limited ADC pins
-
-\- Add LED status indicators per channel for visual debugging
-
-\- Increase bulk decoupling capacitance (10–47 µF) near Vin for noise immunity
-
-\- Add reverse polarity protection on Vin
-
-
-
-\### PCB Layout
-
-\- Cleaner routing paths and power trace optimization
-
-\- Improved silkscreen labeling (sensor numbers visible from bottom)
-
-\- Expose test points per channel for easier debugging
-
-\- Experiment with sensor wing angles for better curve detection
-
-
-
-\### Firmware
-
-\- Weighted centroid algorithm for smooth line position estimate
-
-\- Auto-calibration routine (sweep over line, record min/max per sensor)
-
-\- PID controller integration example for Arduino / STM32
-
-
-
-\---
-
-
-
-\## Applications
-
-
-
-\- Line follower robots
-
-\- Embedded robotics systems
-
-\- PID-based navigation robots
-
-\- Autonomous path tracking systems
-
-
-
-\---
-
-
-
-\*Designed with KiCad 9.0 — Open Source Hardware\*
-
+Designed using KiCad 9.0 🚀
